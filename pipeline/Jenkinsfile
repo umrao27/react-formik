@@ -1,0 +1,70 @@
+pipeline {
+    agent any
+
+    environment {
+        NODE_VERSION = '18.16.0'  // Define the Node.js version
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/umrao27/react-formik.git'
+            }
+        }
+
+        stage('Set Up Node.js') {
+            steps {
+                script {
+                    // Use NodeJS plugin in Jenkins
+                    def nodeHome = tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+                    env.PATH = "${nodeHome}/bin:${env.PATH}"
+                }
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm ci'  // Use 'npm install' if package-lock.json is absent
+            }
+        }
+
+        stage('Linting') {
+            steps {
+                sh 'npm run lint'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                sh 'npm test -- --ci --coverage'
+            }
+        }
+
+        stage('Code Quality Check (Optional)') {
+            steps {
+                sh 'sonar-scanner'
+            }
+        }
+
+        // stage('Deploy') {
+        //     steps {
+        //         sh 'npm run deploy'  // Adjust this based on your deployment method
+        //     }
+        // }
+    }
+
+    post {
+        success {
+            echo 'Build & Deployment Successful!'
+        }
+        failure {
+            echo 'Build Failed!'
+        }
+    }
+}
