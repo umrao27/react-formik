@@ -12,18 +12,5 @@ pipeline {
                 sh 'npm run test' // Or yarn test
             }
         }
-        // stage('Deploy') {
-        //     when {
-        //         anyOf {
-        //             branch 'main' // Or 'master'
-        //             tag /v\d+\.\d+\.\d+/
-        //         }
-        //     }
-        //     steps {
-        //         // Deploy your application (e.g., to a web server)
-        //         // Example using 'rsync' (replace with your deployment method)
-        //         sh 'rsync -avz build/ user@your_server:/path/to/web/app'
-        //     }
-        // }
     }
 }
