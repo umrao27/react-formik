@@ -1,16 +1,48 @@
 pipeline {
-    agent any // Or specify a specific agent
+    agent any
+
+    environment {
+        NODE_VERSION = '18'  // Adjust based on your project
+    }
+
     stages {
-        stage('Build') {
+        // stage('Checkout') {
+        //     steps {
+        //         git branch: 'main', url: 'https://github.com/umrao27/react-formik.git'
+        //     }
+        // }
+
+        // stage('Install Dependencies') {
+        //     steps {
+        //         sh 'npm install'
+        //     }
+        // }
+         stage('Build') {
             steps {
-                sh 'npm install' // Or yarn install
-                sh 'npm run build' // Or yarn build
+                sh 'npm run build'
             }
         }
-        stage('Test') {
+
+        stage('Run Tests') {
             steps {
-                sh 'npm run test' // Or yarn test
+                sh 'npm test'
             }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying...'
+                // Add deployment script (e.g., SCP, S3 upload, Docker push)
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline executed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
         }
     }
 }
