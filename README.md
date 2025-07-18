@@ -19,11 +19,11 @@ This project demonstrates building and validating forms in React using Formik an
 
 ### Technologies Used
 
-React – UI library
-Formik – Form state management
-Yup – Form validation
-Vite – Development/build tool
-ESLint – Code linting
+- React – UI library
+- Formik – Form state management
+- Yup – Form validation
+- Vite – Development/build tool
+- ESLint – Code linting
 
 ### Form UI Overview
 
